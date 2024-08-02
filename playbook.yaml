@@ -2,20 +2,18 @@
 - name: Manage configuration.yaml
   hosts: aws
   remote_user: ansible-test
+  vars:
+    buah: "apple, orange, banana, mango, grape"
   tasks:
     - name: Ensure configuration.yaml exists
       ansible.builtin.file:
         path: ./configuration.yaml
         state: touch
 
-    - name: Set fact with combined values
-      ansible.builtin.set_fact:
-        combined_line: "apple, orange, banana, mango, grape"
-
     - name: Insert combined values into configuration.yaml
       ansible.builtin.lineinfile:
         path: ./configuration.yaml
-        line: "{{ combined_line }}"
+        line: "{{ buah }}"
         create: yes
 
     - name: Display the contents of configuration.yaml
@@ -29,11 +27,11 @@
     - name: Modify 'banana' to 'avocado' and 'grape' to 'watermelon'
       ansible.builtin.replace:
         path: ./configuration.yaml
-        regexp: "{{ item.regexp }}"
-        replace: "{{ item.replace }}"
-      with_items:
-        - { regexp: 'banana', replace: 'avocado' }
-        - { regexp: 'grape', replace: 'watermelon' }
+        regexp: "{{ item.regexpVar }}"
+        replace: "{{ item.replaceVar }}"
+      loop:
+        - { regexpVar: 'banana', replaceVar: 'avocado' }
+        - { regexpVar: 'grape', replaceVar: 'watermelon' }
 
     - name: Display the contents of configuration.yaml after modification
       ansible.builtin.slurp:
