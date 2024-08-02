@@ -1,7 +1,6 @@
 ---
 - name: Manage configuration.yaml
   hosts: aws
-  become: yes
   remote_user: ansible-test
   tasks:
     - name: Ensure configuration.yaml exists
