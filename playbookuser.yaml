@@ -1,7 +1,7 @@
 ---
 - name: Setup ansible-test user on EC2
   hosts: aws
-  become: yes
+  become: true
   remote_user: ubuntu
   vars:
     user: ansible-test
