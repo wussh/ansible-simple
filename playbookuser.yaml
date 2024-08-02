@@ -32,3 +32,11 @@
         owner: "{{ user }}"
         group: "{{ user }}"
         mode: '0600'
+
+    - name: Allow ansible-test user to run sudo without a password
+      copy:
+        content: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
+        dest: "/etc/sudoers.d/{{ user }}"
+        owner: root
+        group: root
+        mode: '0440'
